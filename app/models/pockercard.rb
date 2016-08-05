@@ -1,0 +1,2 @@
+class Pockercard < ApplicationRecord
+end

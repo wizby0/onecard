@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  play_order: MyString
+  winner_id: MyString
+  status: MyString
+
+two:
+  play_order: MyString
+  winner_id: MyString
+  status: MyString

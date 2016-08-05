@@ -1,0 +1,9 @@
+written by woozu Lee 2016.08.22:53
+model 구조
+
+rails g model Game play_order:string winner_id:string status:string
+rails g model Player game_id:integer role:string status:string user:references
+rails g model Pockercard shape:string number:string effect:string player_id:integer order:integer
+
+
+last updated 2016.08.22:53

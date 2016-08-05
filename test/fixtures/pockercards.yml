@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  shape: MyString
+  number: MyString
+  effect: MyString
+  player_id: 1
+  order: 1
+
+two:
+  shape: MyString
+  number: MyString
+  effect: MyString
+  player_id: 1
+  order: 1

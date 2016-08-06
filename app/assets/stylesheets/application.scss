@@ -1,1 +1,38 @@
+@import "font-awesome";
 @import "bootstrap";
+@import "messages";
+
+/*
+ *= require font-awesome
+ */
+ 
+ .footer {
+position:relative;
+bottom: 0px;
+}
+
+
+/* ======채팅 스페이스 관련 소스 ======== */
+
+.chatting_room{
+   height:340px;
+     width:370px;  
+     overflow: scroll;
+}
+
+.chatting_info{
+    height:340px;
+      width:270px;  
+}
+
+
+/* ====== 스크롤 관련 소스 ======== */
+
+
+.outside
+{
+    height:330px;
+    width:360px;
+    position: relative;
+    overflow-y: scroll;
+}

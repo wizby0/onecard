@@ -13,6 +13,11 @@ class ChatChannel < ApplicationCable::Channel
   def unsubscribed
     # Any cleanup needed when channel is unsubscribed
   end
+
+  def user_join
+    ActionCable.server.broadcast('messages', user_info: { name: current_user.name, count_number: Player.where(game_id: Game.last.id).count}, system_info: "user_join")
+    # render_userListInfomessage()
+  end
   
   private
 
@@ -29,6 +34,11 @@ class ChatChannel < ApplicationCable::Channel
 	    })
 	end
 
+  def render_userListInfomessage()
+    # player = Game.last.player
+    # count_number = Player.where(game_id: Game.last.id).count
+    # ActionCable.server.broadcast('messages', players: player.each_with_index.map{|mapium, index| { index: index+1, name: player.user.name, status: player.status }},count_number: Player.where(game_id: Game.last.id).count, system_info: "players_lists")
+  end
 
 
 end

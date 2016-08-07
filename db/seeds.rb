@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-pockercard_list = [["spade", "1"], ["diamond", "j"], ["heart", "q"], ["clover", "k"],["spade", "2"], ["diamond", "3"], ["heart", "4"], ["clover", "5"],["spade", "6"], ["diamond", "7"], ["heart", "8"], ["clover", "9"]]
+pockercard_list = [["spade", "3","none"], ["diamond", "j","jump"], ["heart", "q","back"], ["clover", "k","onemore"]]
 
 pockercard_list.each_with_index do |pockercard_list,index|
   pockercard = Pockercard.new

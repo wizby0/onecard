@@ -6,33 +6,32 @@
  *= require font-awesome
  */
  
- .footer {
-position:relative;
-bottom: 0px;
+.footer {
+	position:relative;
+	bottom: 0px;
 }
 
-
-/* ======채팅 스페이스 관련 소스 ======== */
-
-.chatting_room{
-   height:340px;
-     width:370px;  
-     overflow: scroll;
+.gamespace{
+	position:relative;
+	background-color: red;
+	height: 450px;
 }
 
-.chatting_info{
-    height:340px;
-      width:270px;  
+.user_info{
+	position:relative;
+	background-color:blue;
+	height: 450px;       
 }
 
-
-/* ====== 스크롤 관련 소스 ======== */
-
+.chatting_space
+{ 
+	background-color:black;
+	height: 450px;
+}
 
 .outside
 {
-    height:330px;
-    width:360px;
     position: relative;
     overflow-y: scroll;
+    height: 390px;
 }

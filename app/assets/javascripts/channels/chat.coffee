@@ -22,6 +22,12 @@ App.chat = App.cable.subscriptions.create "ChatChannel",
           appendSystemUserListItem(player)
         appendSystemMessage(data.count_number)
 
+      else if data.system_info == "cards_lists"
+        $('#chatting-info-items').html('') #보내기전에 내용 전부다 지우기  
+        for card in data.cards
+          appendSystemCardListItem(card)
+      
+
 
 
   speak: (msg) ->
@@ -49,7 +55,14 @@ App.chat = App.cable.subscriptions.create "ChatChannel",
       '<div>' + userListItem.index + ' ' + userListItem.name + ' [' + userListItem.status + ']' +
       '</div>'
 
-    $('#chatting-info-items').append(itemHtmlString)
+    $('#user-info-items').append(itemHtmlString)
+
+  appendSystemCardListItem = (cardListItem) ->
+    itemHtmlString = 
+      '<div>' + cardListItem.index + 'num= <' + cardListItem.count_card + '>' +
+      '</div>'
+
+    $('#card-info-items').append(itemHtmlString)
 
 $(document).on 'keypress', '#chat-speak', (event) ->
   if event.keyCode is 13

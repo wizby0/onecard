@@ -6,12 +6,26 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-pockercard_list = [["spade", "3","none"], ["diamond", "j","jump"], ["heart", "q","back"], ["clover", "k","onemore"]]
+pockercard_list = [["spade", "A","attack"],["spade", "2","attack"],["spade", "3","none"],["spade", "4","none"],
+["spade", "5","none"],["spade", "6","none"],["spade", "7","change"],["spade", "8","none"],
+["spade", "9","none"],["spade", "10","none"],["spade", "J","jump"],["spade", "Q","back"],
+["spade", "K","onemore"],["clover", "A","attack"],["clover", "2","attack"],["clover", "3","none"],
+["clover", "4","none"],["clover", "5","none"],["clover", "6","none"],["clover", "7","change"],
+["clover", "8","none"],["clover", "9","none"],["clover", "10","none"],["clover", "J","jump"],
+["clover", "Q","back"],["clover", "K","onemore"],["diamond", "A","attack"],["diamond", "2","attack"],
+["diamond", "3","none"],["diamond", "4","none"],["diamond", "5","none"],["diamond", "6","none"],
+["diamond", "7","change"],["diamond", "8","none"],["diamond", "9","none"],["diamond", "10","none"],
+["diamond", "J","jump"],["diamond", "Q","back"],["diamond", "K","onemore"],["heart", "A","attack"],
+["heart", "2","attack"],["heart", "3","none"],["heart", "4","none"],["heart", "5","none"],["heart", "6","none"],
+["heart", "7","change"],["heart", "8","none"],["heart", "9","none"],["heart", "10","none"],["heart", "J","jump"],
+["heart", "Q","back"],["heart", "K","onemore"]]
 
 pockercard_list.each_with_index do |pockercard_list,index|
   pockercard = Pockercard.new
   pockercard.shape = "#{pockercard_list[0]}"
   pockercard.number = "#{pockercard_list[1]}"
+  pockercard.effect = "#{pockercard_list[2]}"
+  
   
   pockercard.save!
 end

@@ -13,19 +13,19 @@
 
 .gamespace{
 	position:relative;
-	background-color: red;
+	background-color: #5ec75e;
 	height: 450px;
 }
 
 .user_info{
 	position:relative;
-	background-color:blue;
+	border: 2px solid blue;
+    border-radius: 5px;
 	height: 450px;       
 }
 
 .chatting_space
 { 
-	background-color:black;
 	height: 450px;
 }
 
@@ -34,4 +34,46 @@
     position: relative;
     overflow-y: scroll;
     height: 390px;
+}
+
+
+/* in game space*/
+
+.myside
+{
+ height: 140px;
+ width: 580px;
+ bottom: 50px;
+ border: 2px solid red;
+ border-radius: 5px;
+}
+
+.player1
+{
+	
+}
+
+.player2
+{
+	
+}
+
+.player3
+{
+	
+}
+
+.player4
+{
+	
+}
+
+.deck
+{
+	
+}
+
+.dummy
+{
+	
 }

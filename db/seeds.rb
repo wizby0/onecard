@@ -25,7 +25,20 @@ pockercard_list.each_with_index do |pockercard_list,index|
   pockercard.shape = "#{pockercard_list[0]}"
   pockercard.number = "#{pockercard_list[1]}"
   pockercard.effect = "#{pockercard_list[2]}"
-  pockercard.player_id = "1"
+
+  if index%10 == 0
+    pockercard.player_id = "3"
+  elsif index % 10 == 2
+    pockercard.player_id = "4"
+  elsif index % 10 == 4  
+    pockercard.player_id = "5"
+  elsif index %10 == 6
+    pockercard.player_id = "6"
+  elsif index %10 == 8
+    pockercard.player_id = "7"
+  else
+    pockercard.player_id = "1"
+  end
   
   pockercard.save!
 end

@@ -40,11 +40,13 @@ class ChatChannel < ApplicationCable::Channel
 	end
 
   def render_userListInfomessage()
-    # player = Game.last.player
-    # count_number = Player.where(game_id: Game.last.id).count
-    # ActionCable.server.broadcast('messages', players: player.each_with_index.map{|mapium, index| { index: index+1, name: player.user.name, status: player.status }},count_number: Player.where(game_id: Game.last.id).count, system_info: "players_lists")
-    ActionCable.server.broadcast('messages', count_number: Player.where(game_id: Game.last.id).count, system_info: "players_lists")
-  end
+
+    # players = Player.where(game_id:Game.last.id)
+    players = Game.last.players
+    count_number = Player.where(game_id: Game.last.id, role: nil).count #count player except deck and dummy
+    ActionCable.server.broadcast('messages', players: players.each_with_index.map{|player, index| { index: index+1, name: player.user.name, status: player.status }}, count_number: count_number, system_info: "players_lists")
+    
+   end
 
 
 end

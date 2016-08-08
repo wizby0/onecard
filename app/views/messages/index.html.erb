@@ -6,39 +6,40 @@
 	<p>Signed in as @<%= cookies.signed[:username] %>.</p>
 </div>
 
-	
+
 <div class="row">
 	<div class="col-xs-7 gamespace">
-	게임 화면 
+		게임 화면 
 	</div>
 	
 	<div class="col-xs-3">
-			<div class="chatting_space">
-				<div class="outside" id="messages">
-				</div>
-				<div class="form-group">
-					<textarea class="form-control" rows="2" id="chat-speak"></textarea>
-				</div>
-								 				 
+		<div class="chatting_space">
+			<div class="outside" id="messages">
 			</div>
+			<div class="form-group">
+				<textarea class="form-control" rows="2" id="chat-speak"></textarea>
+			</div>
+
+		</div>
 	</div>
 	
-	 <div class="col-xs-2">
-		 <div class="user_info">
-		 user info
-	     </div>
+	<div class="col-xs-2">
+		<div class="user_info">
+			user info
+		</div>
+		<div id="chatting-info-items"></div>
 	</div>
 </div>
 
 <br>
-	<div id="test_function" class="btn btn-primary">test_function</div>
+<div id="test_function" class="btn btn-primary">test_function</div>
 
 
-			<div>
-			<H1>현재 있는 카드</H1>
-			<%= Pockercard.all.pluck(:number,:shape,:effect).each do |x,y,z| %>
-			           <%= "number: #{x} , Shape: #{y} ,effect: #{z}" %>
-			           <br>
-			            <% end %>
-			            <br>
-			</div>
+<div>
+	<H1>현재 있는 카드</H1>
+	<%= Pockercard.all.pluck(:number,:shape,:effect).each do |x,y,z| %>
+	<%= "number: #{x} , Shape: #{y} ,effect: #{z}" %>
+	<br>
+	<% end %>
+	<br>
+</div>

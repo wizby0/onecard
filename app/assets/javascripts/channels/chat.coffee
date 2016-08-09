@@ -23,9 +23,18 @@ App.chat = App.cable.subscriptions.create "ChatChannel",
         appendSystemMessage(data.count_number)
 
       else if data.system_info == "cards_lists"
-        $('#chatting-info-items').html('') #보내기전에 내용 전부다 지우기  
+        $('#card-info-items').html('') #보내기전에 내용 전부다 지우기  
         for card in data.cards
           appendSystemCardListItem(card)
+
+      else if data.system_info == "pockers_lists"
+        for pocker in data.pockers
+          appendSystemPockerListItem(pocker)
+
+      else if data.system_info == "lists_end"
+          appendSystemEndListItem(data.list_info)
+
+          
       
 
 
@@ -39,7 +48,13 @@ App.chat = App.cable.subscriptions.create "ChatChannel",
   test_function: ->
     @perform 'test_function'
 
+  test_function2: ->
+    @perform 'test_function2'
+
 #sytem info mation temporal functions 
+
+  appendTestMessage = ()->
+      $('#messages').append("test")
 
   appendMessage = (message) ->
       $('#messages').append(message)
@@ -64,6 +79,19 @@ App.chat = App.cable.subscriptions.create "ChatChannel",
 
     $('#card-info-items').append(itemHtmlString)
 
+
+  appendSystemPockerListItem = (pockerListItem) ->
+    itemHtmlString = 
+      '<span>' + ' ' + pockerListItem.index + '=[' + pockerListItem.shape + ' ' + pockerListItem.number + '] ' + '</span>'
+
+    $('#card-info-items').append(itemHtmlString)
+
+  appendSystemEndListItem = (ListItem) ->
+    itemHtmlString = 
+      '<div>' + 'user' + ListItem.pockers_number + 'total=' + ListItem.pockers_number +
+      '</div>'
+    $('#card-info-items').append(itemHtmlString)
+
 $(document).on 'keypress', '#chat-speak', (event) ->
   if event.keyCode is 13
     App.chat.speak(event.target.value)
@@ -72,3 +100,6 @@ $(document).on 'keypress', '#chat-speak', (event) ->
 
 $(document).on 'click', '#test_function', ->
   App.chat.test_function()
+
+$(document).on 'click', '#test_function2', ->
+  App.chat.test_function2()

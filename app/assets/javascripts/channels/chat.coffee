@@ -35,7 +35,7 @@ App.chat = App.cable.subscriptions.create "ChatChannel",
           appendSystemStartListItem(data.list_info)
 
       else if data.system_info == "lists_end"
-          appendSystemEndListItem(data.list_info)
+          appendSystemEndListItem()
 
           
       
@@ -95,10 +95,8 @@ App.chat = App.cable.subscriptions.create "ChatChannel",
       '</div>' + '<div>'
     $('#card-info-items').append(itemHtmlString)
 
-  appendSystemEndListItem = (ListItem) ->
-    itemHtmlString = 
-      '=' + ListItem.pockers_number + ' total= ' + ListItem.pockers_number +
-      '</div>'
+  appendSystemEndListItem = () ->
+    itemHtmlString ='</div>'
     $('#card-info-items').append(itemHtmlString)
 
 $(document).on 'keypress', '#chat-speak', (event) ->

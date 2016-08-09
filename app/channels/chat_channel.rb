@@ -67,7 +67,7 @@ def unsubscribed
     players = Player.where(game_id:Game.last.id)
     players.each_with_index do |player, index|
       if index >=2         
-        player_name = User.find(player.id).name
+        player_name = User.find(player.id-2).name
       else
         player_name = player.role
       end
@@ -76,7 +76,7 @@ def unsubscribed
 
       ActionCable.server.broadcast('messages', list_info: {player_id: player.id, player_name: player_name, pockers_number: count_card} , system_info: "lists_start")
       ActionCable.server.broadcast('messages', pockers_number: count_card, pockers: pockers.each_with_index.map{|pocker, index| { index: index+1, shape: pocker.shape, number: pocker.number }}, system_info: "pockers_lists")
-      ActionCable.server.broadcast('messages', list_info: {player_id: player.id, pockers_number: count_card} , system_info: "lists_end")    
+      ActionCable.server.broadcast('messages', system_info: "lists_end")    
     end
     
 

@@ -30,13 +30,16 @@ App.chat = App.cable.subscriptions.create "ChatChannel",
       else if data.system_info == "pockers_lists"
         for pocker in data.pockers
           appendSystemPockerListItem(pocker)
+      else if data.system_info == "claer_list"
+        $('#card-info-items').html('') #보내기전에 내용 전부다 지우기 
 
       else if data.system_info == "lists_start"
-          appendSystemStartListItem(data.list_info)
+        appendSystemStartListItem(data.list_info)
 
       else if data.system_info == "lists_end"
-          appendSystemEndListItem()
+        appendSystemEndListItem()
 
+      
           
       
 

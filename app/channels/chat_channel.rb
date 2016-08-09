@@ -25,7 +25,7 @@ def unsubscribed
   end
 
   def test_function2  
-    render_cardListInfomessage2()
+
   end
 
   private
@@ -52,18 +52,9 @@ def unsubscribed
     
   end
 
+
   def render_cardListInfomessage()
-
-    count_cards = []
-    players = Player.where(game_id:Game.last.id)
-    players.each_with_index do |player, index|
-      count_cards[index] = Pockercard.where(player_id:player.id).count
-    end
-    
-    ActionCable.server.broadcast('messages', cards: count_cards.each_with_index.map{|count_card, index| { index: index+1, count_card: count_card }}, system_info: "cards_lists")
-  end
-
-  def render_cardListInfomessage2()
+    ActionCable.server.broadcast('messages', system_info: "claer_list")   
     players = Player.where(game_id:Game.last.id)
     players.each_with_index do |player, index|
       if index >=2         
@@ -78,14 +69,7 @@ def unsubscribed
       ActionCable.server.broadcast('messages', pockers_number: count_card, pockers: pockers.each_with_index.map{|pocker, index| { index: index+1, shape: pocker.shape, number: pocker.number }}, system_info: "pockers_lists")
       ActionCable.server.broadcast('messages', system_info: "lists_end")    
     end
-    
-
-
-
-    # cards = Pockercard.where(player_id:Player.last.id)
-    # count_number = Player.where(game_id: Game.last.id, role: nil).count #count player except deck and dummy
-    # ActionCable.server.broadcast('messages', players: players.each_with_index.map{|player, index| { index: index+1, name: player.user.name, status: player.status }}, count_number: count_number, system_info: "players_lists")
-    
+  
   end
 
 end

@@ -30,7 +30,7 @@ App.chat = App.cable.subscriptions.create "ChatChannel",
       else if data.system_info == "pockers_lists"
         for pocker in data.pockers
           appendSystemPockerListItem(pocker)
-      else if data.system_info == "claer_list"
+      else if data.system_info == "clear_list"
         $('#card-info-items').html('') #보내기전에 내용 전부다 지우기 
 
       else if data.system_info == "lists_start"
@@ -39,9 +39,9 @@ App.chat = App.cable.subscriptions.create "ChatChannel",
       else if data.system_info == "lists_end"
         appendSystemEndListItem()
 
-      
-          
-      
+      else if data.system_info == "turn_on"
+        $('#chatting-info-items').html('') #보내기전에 내용 전부다 지우기  
+        appendSystemTurnListItem(data.player_id)
 
 
 
@@ -102,6 +102,10 @@ App.chat = App.cable.subscriptions.create "ChatChannel",
     itemHtmlString ='</div>'
     $('#card-info-items').append(itemHtmlString)
 
+  appendSystemTurnListItem = (current_turn_player) ->
+    turnOnString = '<div>' + 'current turn player id =' + current_turn_player + '</div>'
+    $('#user-info-items').append(turnOnString)
+
 $(document).on 'keypress', '#chat-speak', (event) ->
   if event.keyCode is 13
     App.chat.speak(event.target.value)
@@ -113,3 +117,4 @@ $(document).on 'click', '#test_function', ->
 
 $(document).on 'click', '#test_function2', ->
   App.chat.test_function2()
+

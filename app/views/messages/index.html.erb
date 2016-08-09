@@ -25,21 +25,43 @@
 		<div class = "dummy">
 		dummy
 		</div>
+		<div class= "count_dummy">
+		<i class="fa fa-trash fa-2x" style="color: black"></i>
+		<strong> : <%= Pockercard.where(player_id:"2").count %></strong>
+		</div>
+
 
 		<div class = "player2">
-		<i class="fa fa-child fa-2x" style="color: red"></i>player2
+		<i class="fa fa-child fa-2x" style="color: #ff4646"></i>player2
 		</div>
+		<div class = "count_p2">
+		<i class="fa fa-credit-card fa-lg" style="color: #ff4646"></i> 
+		<strong> x <%= Pockercard.where(player_id:"4").count %></strong>
+		</div>
+
 
 		<div class = "player3">
 		<i class="fa fa-child fa-2x" style="color: orange"></i>player3
+		</div>
+		<div class = "count_p3">
+		<i class="fa fa-credit-card fa-lg" style="color: orange"></i> 
+		<strong> x <%= Pockercard.where(player_id:"5").count %></strong>
 		</div>
 
 		<div class = "player4">
 		<i class="fa fa-child fa-2x" style="color: blue"></i>player4
 		</div>
+		<div class = "count_p4">
+		<i class="fa fa-credit-card fa-lg" style="color: blue"></i> 
+		<strong> x <%= Pockercard.where(player_id:"6").count %></strong>
+		</div>
 
 		<div class = "player5">
-		<i class="fa fa-child fa-2x" style="color: black"></i>player5
+		<i class="fa fa-child fa-2x" style="color: #9e37d1"></i>player5
+		</div>
+		<div class = "count_p5">
+		<i class="fa fa-credit-card fa-lg" style="color: #9e37d1"></i> 
+		<strong> x <%= Pockercard.where(player_id:"7").count %></strong>
 		</div>
 	</div>
 	

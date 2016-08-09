@@ -31,6 +31,9 @@ App.chat = App.cable.subscriptions.create "ChatChannel",
         for pocker in data.pockers
           appendSystemPockerListItem(pocker)
 
+      else if data.system_info == "lists_start"
+          appendSystemStartListItem(data.list_info)
+
       else if data.system_info == "lists_end"
           appendSystemEndListItem(data.list_info)
 
@@ -86,9 +89,15 @@ App.chat = App.cable.subscriptions.create "ChatChannel",
 
     $('#card-info-items').append(itemHtmlString)
 
+  appendSystemStartListItem = (ListItem) ->
+    itemHtmlString = 
+      '<div>' + 'user ' + ListItem.player_name + ' total=' + ListItem.pockers_number +
+      '</div>' + '<div>'
+    $('#card-info-items').append(itemHtmlString)
+
   appendSystemEndListItem = (ListItem) ->
     itemHtmlString = 
-      '<div>' + 'user' + ListItem.pockers_number + 'total=' + ListItem.pockers_number +
+      '=' + ListItem.pockers_number + ' total= ' + ListItem.pockers_number +
       '</div>'
     $('#card-info-items').append(itemHtmlString)
 

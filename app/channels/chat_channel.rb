@@ -24,15 +24,17 @@ class ChatChannel < ApplicationCable::Channel
   def test_function  
     # display_turnOnPlayer()
     # display_cardListInfomessage()
-    command_shuffle()
-    display_cardListInfomessage()
+    command_endTurn()
+    # command_shuffle()
+    # display_cardListInfomessage()
   end
 
   def test_function2  
     # action_endTurn()
     # action_moveCard()
     # display_cardListInfomessage()
-    # command_totals()
+    command_jump()
+    display_userListInfomessage()
   end
 
 
@@ -42,16 +44,19 @@ class ChatChannel < ApplicationCable::Channel
 
     #default value setting
     # sourcePlayer_id = Player.find_by(game_id: Game.last.id, user_id: User.find_by(name: current_user).id).id
-    targetCard_id = 50
-    action_message = "use_card" #action command
-    
+    targetCard_id = 20
+    action_message = "draw_card" #action command
+
+
     if action_message == "draw_card"
+      targetCard_id = Pockercard.on_deck_ids.sample(1)[0]
+
       sourcePlayer_id = Game.last.players.deck.id
       destPlayer_id = Game.last.players.find_by(user: current_user,role: nil).id
       pockerCard_id = targetCard_id
-    elsif action_message == "use_card"
 
-      if targetCard_id == Pockercard.find_by(id:targetCard_id).player_id #only owner can play card      
+    elsif action_message == "use_card"
+      if Game.last.players.find_by(user: current_user,role: nil).id == Pockercard.find_by(id:targetCard_id).player_id #only owner can play card      
         sourcePlayer_id = Game.last.players.find_by(user: current_user,role: nil).id
         destPlayer_id = Game.last.players.dummy.id
         pockerCard_id = targetCard_id
@@ -99,6 +104,17 @@ class ChatChannel < ApplicationCable::Channel
     display_cardListInfomessage()
   end
 
+   def command_endTurn()
+      turn_step = 1
+      action_endTurn(turn_step)
+      display_userListInfomessage()
+    end
+
+    def command_jump()
+      turn_step = 2
+      action_endTurn(turn_step)
+      display_userListInfomessage()
+    end
 
   private
 
@@ -163,8 +179,8 @@ class ChatChannel < ApplicationCable::Channel
   end
 
   #jayoon's coding
-  def action_endTurn()
-    turn_step = 1 #default step
+  def action_endTurn(turn_step)
+    # turn_step = 1 #default step
     game = Game.last
 
     turn_player = game.players.turn_on.last

@@ -82,14 +82,13 @@ class ChatChannel < ApplicationCable::Channel
     count_index = 1
     shuffled_cards.each_with_index do |card_index, index|
 
-      if index  < count_index*cards_num
-        Pockercard.find(card_index).update(player_id: alive_player_ids[count_index-1])
-      else
-        if index >= shuffled_cards.size
-          Pockercard.find(card_index).update(player_id: '1')#deck
-        else
+      if index < alive_player_ids.size*cards_num
+        if index  >= count_index*cards_num
           count_index += 1
         end
+        Pockercard.find(card_index).update(player_id: alive_player_ids[count_index-1])
+      else
+        Pockercard.find(card_index).update(player_id: '1')#deck
       end
 
     end

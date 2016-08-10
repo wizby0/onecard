@@ -50,12 +50,16 @@ App.chat = App.cable.subscriptions.create "ChatChannel",
 
   user_join: ->
     @perform 'user_join'
-    
+
   test_function: ->
     @perform 'test_function'
-
+    
   test_function2: ->
     @perform 'test_function2'
+
+  move_card: ->
+    @perform 'move_card'
+
 
 #sytem info mation temporal functions 
 

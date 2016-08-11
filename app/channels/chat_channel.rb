@@ -24,16 +24,17 @@ class ChatChannel < ApplicationCable::Channel
   def test_function  
     # display_turnOnPlayer()
     # display_cardListInfomessage()
-    command_endTurn()
-    # command_shuffle()
-    # display_cardListInfomessage()
+    # command_endTurn()
+    command_shuffle()
+    display_cardListInfomessage()
   end
 
   def test_function2  
     # action_endTurn()
     # action_moveCard()
     # display_cardListInfomessage()
-    command_jump()
+    # command_jump()
+    command_totals()
     display_userListInfomessage()
   end
 
@@ -41,11 +42,10 @@ class ChatChannel < ApplicationCable::Channel
 
   def command_totals()
 
-
     #default value setting
     # sourcePlayer_id = Player.find_by(game_id: Game.last.id, user_id: User.find_by(name: current_user).id).id
-    targetCard_id = 20
-    action_message = "draw_card" #action command
+    targetCard_id = 4
+    action_message = "use_card" #action command
 
 
     if action_message == "draw_card"
@@ -55,10 +55,14 @@ class ChatChannel < ApplicationCable::Channel
       destPlayer_id = Game.last.players.find_by(user: current_user,role: nil).id
       pockerCard_id = targetCard_id
 
+
+
     elsif action_message == "use_card"
-      if Game.last.players.find_by(user: current_user,role: nil).id == Pockercard.find_by(id:targetCard_id).player_id #only owner can play card      
+      # if Game.last.players.find_by(user: current_user,role: nil).id == Pockercard.find_by(id:targetCard_id).player_id #only owner can play card 
+      if check_cardOwn(targetCard_id)#only owner can play card  
         sourcePlayer_id = Game.last.players.find_by(user: current_user,role: nil).id
         destPlayer_id = Game.last.players.dummy.id
+        # destPlayer_id = 2 #dummy
         pockerCard_id = targetCard_id
       end
     end
@@ -67,35 +71,22 @@ class ChatChannel < ApplicationCable::Channel
   end
 
   def command_shuffle()
+    Pockercard.all.update_all(player_id: 1)
 
-    old_cards = Pockercard.order(:id).pluck(:id)
-    shuffled_cards = old_cards.sample(old_cards.count)
-
-    alive_player = Game.last.players.on_game.order(:id)
-    alive_player_ids = alive_player.ids
-
-
+    alive_players = Game.last.players.on_game.order(:id)
     #alive_player_num 2->cards 7, 3->cards 5, 4->cards 5
-    if alive_player.size == 2
+    if alive_players.size == 2
       cards_num = 7
-    elsif alive_player.size == 3
+    elsif alive_players.size == 3
       cards_num = 6
     else
       cards_num = 5
     end
 
-    count_index = 1
-    shuffled_cards.each_with_index do |card_index, index|
-
-      if index < alive_player_ids.size*cards_num
-        if index  >= count_index*cards_num
-          count_index += 1
-        end
-        Pockercard.find(card_index).update(player_id: alive_player_ids[count_index-1])
-      else
-        Pockercard.find(card_index).update(player_id: '1')#deck
-      end
-
+    shuffled_card_ids = Pockercard.order('RANDOM()').ids
+    alive_players.each do |player|
+      target_cards = Pockercard.where(id: shuffled_card_ids.slice!(0,cards_num))
+      target_cards.update_all(player_id: player.id)
     end
   end
 
@@ -136,6 +127,7 @@ class ChatChannel < ApplicationCable::Channel
     # players = Player.where(game_id:Game.last.id)
     players = Game.last.players
     count_number = Player.where(game_id: Game.last.id, role: nil).count #count player except deck and dummy
+    # count_number = Player.where(game_id: Game.last.id).count #count player whith deck and dummy
     ActionCable.server.broadcast('messages', players: players.each_with_index.map{|player, index| { index: index+1, name: player.user.name, status: player.status }}, count_number: count_number, system_info: "players_lists")
     
   end
@@ -164,6 +156,24 @@ class ChatChannel < ApplicationCable::Channel
     turnPlayer = Player.where(status:"turn_on").last
     ActionCable.server.broadcast('messages', player_id: turnPlayer.id-2 ,system_info: "turn_on") 
   end
+
+#============ check authroity functions ================
+  
+  def check_cardOwn(card_id)
+    
+    value_return = false
+
+    if Game.last.players.find_by(user: current_user,role: nil).id == Pockercard.find_by(id:card_id).player_id
+      value_return = true
+    end
+
+    return value_return
+    
+  end
+
+
+
+#=============== partial action functions =================
 
   def action_moveCard(data)
     

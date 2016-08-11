@@ -74,10 +74,9 @@ players_list.each_with_index do |player,index|
     player.user_id = index - 1
     player.status = "alive"
   else
-    player.role = "#{players_list[1]}"
+    player.role = players_list[index][1]
     player.user_id = 1  #admin user id added
   end
   player.save!
 end
-
 

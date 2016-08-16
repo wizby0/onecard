@@ -153,6 +153,21 @@
  right: 40px; 
 }
 
+.remote_controller{
+  position: fixed;
+  right: 600px;
+  top:690px;  
+  
+  background-color: skyblue;
+  width: 300px;
+  height: 270px;
+  float: left;
+  
+  border: 2px solid red;
+  border-style: dotted solid;
+  border-radius: 5px;  
+}
+
 
 /*==== show card info=== */
 .card-info-min #card-info-items div

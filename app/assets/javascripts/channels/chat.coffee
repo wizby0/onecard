@@ -110,7 +110,7 @@ App.chat = App.cable.subscriptions.create "ChatChannel",
 
   appendSystemPockerListItem = (pockerListItem) ->
     itemHtmlString = 
-      '<span>' + ' ' + pockerListItem.index + '=[' + pockerListItem.shape + ' ' + pockerListItem.number + '] ' + '</span>'
+      '<div style="height: 100px;" class ="'+ pockerListItem.shape + '_' + pockerListItem.number+ '">' +'</div>' +'</div>' 
 
     $('#card-info-items').append(itemHtmlString)
 

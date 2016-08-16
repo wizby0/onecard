@@ -1,6 +1,7 @@
 # Be sure to restart your server when you modify this file. Action Cable runs in a loop that does not support auto reloading.
 class ChatChannel < ApplicationCable::Channel
   @@deck_list = []
+  @@dummy_list = []
 
  def subscribed
   stream_from 'messages'
@@ -22,13 +23,14 @@ class ChatChannel < ApplicationCable::Channel
   
 
   def command_start 
-    command_shuffle()
+    command_shuffle_all_cards()
     display_cardListInfomessage()
   end
 
   def command_drawCard 
     action_drawCard()
     display_cardListInfomessage()
+    command_endTurn()
   end
 
 
@@ -36,9 +38,12 @@ class ChatChannel < ApplicationCable::Channel
   def test_function  
     # display_turnOnPlayer()
     # display_cardListInfomessage()
-    command_endTurn()
+    # command_endTurn()
     # command_shuffle()
-    display_cardListInfomessage()
+    # display_cardListInfomessage()
+    # @@dummy_list.push(1)
+    # @@dummy_list.push(7)
+    display_lastDummyCard()
   end
 
   def test_function2  
@@ -63,12 +68,12 @@ class ChatChannel < ApplicationCable::Channel
     if action_message == "draw_card"
       action_drawCard()
     elsif action_message == "use_card"
-      action_useCard(targetCard_id)
+      action_useCard(targetCard_id)      
     end
     
   end
 
-  def command_shuffle()
+  def command_shuffle_all_cards()
     Pockercard.all.update_all(player_id: 1)
 
     alive_players = Game.last.players.on_game.order(:id)
@@ -86,6 +91,15 @@ class ChatChannel < ApplicationCable::Channel
       target_cards = Pockercard.where(id: shuffled_card_ids.slice!(0,cards_num))
       target_cards.update_all(player_id: player.id)
     end
+
+    seed_card = Pockercard.on_deck_ids.sample(1)[0]
+    @@dummy_list.clear
+    @@dummy_list.push(seed_card)
+    Pockercard.find(seed_card).update(player_id: 2)#seed card for dummy
+    
+    top_cards = Pockercard.on_deck_ids.sample(3) #remember top 3 cards
+    @@deck_list += top_cards
+
   end
 
   def command_moveCard(data)
@@ -93,17 +107,42 @@ class ChatChannel < ApplicationCable::Channel
     display_cardListInfomessage()
   end
 
-   def command_endTurn()
-      turn_step = 1
-      action_endTurn(turn_step)
-      display_userListInfomessage()
-    end
+  def command_endTurn()
+    turn_step = 1
+    action_endTurn(turn_step)
+    display_userListInfomessage()
+  end
 
-    def command_jump()
-      turn_step = 2
-      action_endTurn(turn_step)
-      display_userListInfomessage()
-    end
+  def command_jump()
+    turn_step = 2
+    action_endTurn(turn_step)
+    display_userListInfomessage()
+  end
+
+  def command_shuffle_dummy()
+    dummy_card_ids = Pockercard.on_dummy_ids
+
+    
+    #TODO extract top two cards of dummy
+    dummy_card_ids.delete(@@dummy_list[0])
+    dummy_card_ids.delete(@@dummy_list[1])
+
+    Pockercard.where(id: dummy_card_ids).update_all(player_id: 1) #put to deck
+    display_cardListInfomessage()
+  end
+    
+
+  def command_useCard(data)
+    card_number = data["card_number"]
+    curPlayer_id = Game.last.players.by_user(current_user).id
+    myCards_ids = Pockercard.where(player_id:curPlayer_id).order(:id).ids
+    targetCard_id = myCards_ids[card_number]
+
+    action_useCard(targetCard_id)
+
+    display_cardListInfomessage()
+  end
+
 
   private
 
@@ -155,6 +194,16 @@ class ChatChannel < ApplicationCable::Channel
     ActionCable.server.broadcast('messages', player_id: turnPlayer.id-2 ,system_info: "turn_on") 
   end
 
+  def display_lastDummyCard()
+    # lastCard = @@dummy_list.shift
+    lastCard = @@dummy_list[0]
+    ActionCable.server.broadcast('messages', card_id: lastCard ,system_info: "last_card") 
+    if @@dummy_list.size >1
+      lastCard = @@dummy_list[1]
+      ActionCable.server.broadcast('messages', card_id: lastCard ,system_info: "last_card") 
+    end
+  end
+
 #============ check condition functions ================
   
   def check_cardOwn(card_id) #authroity
@@ -196,20 +245,42 @@ class ChatChannel < ApplicationCable::Channel
       else
         action_endTurn(1) #skip next player
       end
+      action_addDummyList(pockerCard_id)
     end
 
-    display_userListInfomessage()
+
 
   end
 
   def action_drawCard()
     targetCard_id = Pockercard.on_deck_ids.sample(1)[0]
+
+    # deck_list[]push(targetCard_id)#adde
+    @@deck_list.push(targetCard_id)
+    targetCard_id = @@deck_list.shift
+
+
     sourcePlayer_id = Game.last.players.deck.id
     # destPlayer_id = Game.last.players.find_by(user: current_user,role: nil).id
     destPlayer_id = Game.last.players.by_user(current_user).id
 
     pockerCard_id = targetCard_id    
     command_moveCard(dest_id: destPlayer_id, source_id: sourcePlayer_id, card_id: pockerCard_id)
+    display_turnOnPlayer()
+
+    if Pockercard.on_deck_ids.length < 4 #if cards number is less than 4
+      command_shuffle_dummy()
+    end
+  end
+
+  def action_addDummyList(targetCard_id)
+
+    if(@@dummy_list.first != targetCard_id)
+      if(@@dummy_list.size >1)
+        @@dummy_list.pop
+      end
+      @@dummy_list.unshift(targetCard_id)
+    end
   end
 
   def action_moveCard(data)

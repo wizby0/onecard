@@ -18,10 +18,9 @@
 }
 
 .user_info{
-	position:relative;
 	border: 2px solid blue;
     border-radius: 5px;
-	height: 450px;       
+    height: 450px;       
 }
 
 .chatting_space
@@ -152,4 +151,404 @@
  position: absolute;
  top: 180px;
  right: 40px; 
+}
+
+
+/*==== show card info=== */
+.card-info-min #card-info-items div
+{
+  width: 70px;
+  height: 100px;
+  display: block;
+  border: 2px solid red;
+  border-style: dotted solid;
+  float: left;
+  background-color: white;
+  margin: 1px;
+}
+
+.spade_A{
+background-image: url(ace_of_spades.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;
+}
+
+.spade_2{
+background-image: url(2_of_spades.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;
+}
+
+.spade_3{
+background-image: url(3_of_spades.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;
+}
+
+.spade_4{
+background-image: url(4_of_spades.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;
+}
+
+.spade_5{
+background-image: url(5_of_spades.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;
+}
+
+.spade_6{
+background-image: url(6_of_spades.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;
+}
+
+.spade_7{
+background-image: url(7_of_spades.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;
+}
+
+.spade_8{
+background-image: url(8_of_spades.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;
+}
+
+.spade_9{
+background-image: url(9_of_spades.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;
+}
+
+.spade_10{
+background-image: url(10_of_spades.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;
+}
+
+.spade_J{
+background-image: url(jack_of_spades.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;
+}
+
+.spade_Q{
+background-image: url(queen_of_spades.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;
+}
+
+.spade_K{
+background-image: url(king_of_spades.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;
+}
+/* ===Heart series ===*/
+.heart_A{
+background-image: url(ace_of_hearts.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;
+}
+.heart_2{
+background-image: url(2_of_hearts.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;
+}
+
+.heart_3{
+background-image: url(3_of_hearts.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;
+}
+
+.heart_4{
+background-image: url(4_of_hearts.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;
+}
+.heart_5{
+background-image: url(5_of_hearts.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;
+}
+.heart_6{
+background-image: url(6_of_hearts.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;
+}
+.heart_7{
+background-image: url(7_of_hearts.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;
+}
+.heart_8{
+background-image: url(8_of_hearts.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;
+}
+.heart_9{
+background-image: url(9_of_hearts.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;
+}
+.heart_10{
+background-image: url(10_of_hearts.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;
+}
+.heart_J{
+background-image: url(jack_of_hearts.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;
+}
+.heart_Q{
+background-image: url(queen_of_hearts.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;
+}
+
+.heart_K{
+background-image: url(king_of_hearts.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;
+}
+
+/* === clover series===*/
+.clover_A{
+background-image: url(ace_of_clubs.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;	
+}
+.clover_2{
+background-image: url(2_of_clubs.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;	
+}
+.clover_3{
+background-image: url(3_of_clubs.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;	
+}
+.clover_4{
+background-image: url(4_of_clubs.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;	
+}
+.clover_5{
+background-image: url(5_of_clubs.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;	
+}
+.clover_6{
+background-image: url(6_of_clubs.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;	
+}
+.clover_7{
+background-image: url(7_of_clubs.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;	
+}
+.clover_8{
+background-image: url(8_of_clubs.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;	
+}
+.clover_9{
+background-image: url(9_of_clubs.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;	
+}
+.clover_10{
+background-image: url(10_of_clubs.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;	
+}
+.clover_J{
+background-image: url(jack_of_clubs.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;	
+}
+.clover_Q{
+background-image: url(queen_of_clubs.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;	
+}
+.clover_K{
+background-image: url(king_of_clubs.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;	
+}
+
+
+/* === Diamond series===*/
+.diamond_A{
+background-image: url(ace_of_diamonds.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;
+}
+.diamond_2{
+background-image: url(2_of_diamonds.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;
+}
+.diamond_3{
+background-image: url(3_of_diamonds.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;	
+}
+.diamond_4{
+background-image: url(4_of_diamonds.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;	
+}
+.diamond_5{
+background-image: url(5_of_diamonds.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;	
+}
+.diamond_6{
+background-image: url(6_of_diamonds.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;	
+}
+.diamond_7{
+background-image: url(7_of_diamonds.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;	
+}
+.diamond_8{
+background-image: url(8_of_diamonds.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;	
+}
+.diamond_9{
+background-image: url(9_of_diamonds.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;	
+}
+.diamond_10{
+background-image: url(10_of_diamonds.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;	
+}
+.diamond_J{
+background-image: url(jack_of_diamonds.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;	
+}
+.diamond_Q{
+background-image: url(queen_of_diamonds.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;	
+}
+.diamond_K{
+background-image: url(king_of_diamonds.png);
+height: 100px;
+width: 70px;
+background-repeat: no-repeat;
+background-size: contain;	
 }

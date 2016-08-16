@@ -5,8 +5,9 @@ class Player < ApplicationRecord
 	scope :on_game, -> { where(status: ["alive", "turn_on"]) }
 	scope :alive, -> { where(status: "alive") }
 	scope :turn_on, -> { where(status: "turn_on") }
+
+	#one player
 	scope :deck, -> { where(role: "deck").last }
 	scope :dummy, -> { where(role: "dummy").last }
-	scope :cur_playing, -> { find_by(user: current_user,role: nil) }
-	
+	scope :by_user, -> (user) { find_by(user: user, role: nil) }
 end

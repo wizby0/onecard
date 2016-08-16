@@ -30,6 +30,7 @@ App.chat = App.cable.subscriptions.create "ChatChannel",
       else if data.system_info == "pockers_lists"
         for pocker in data.pockers
           appendSystemPockerListItem(pocker)
+
       else if data.system_info == "clear_list"
         $('#card-info-items').html('') #보내기전에 내용 전부다 지우기 
 
@@ -59,6 +60,12 @@ App.chat = App.cable.subscriptions.create "ChatChannel",
 
   move_card: ->
     @perform 'move_card'
+
+  draw_card: ->
+    @perform 'command_drawCard'
+
+  start_game: ->
+    @perform 'command_start'
 
 
 #sytem info mation temporal functions 
@@ -122,3 +129,8 @@ $(document).on 'click', '#test_function', ->
 $(document).on 'click', '#test_function2', ->
   App.chat.test_function2()
 
+$(document).on 'click', '#draw_card', ->
+  App.chat.draw_card()
+
+$(document).on 'click', '#start_game', ->
+  App.chat.start_game()

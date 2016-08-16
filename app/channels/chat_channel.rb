@@ -21,11 +21,23 @@ class ChatChannel < ApplicationCable::Channel
   end
   
 
+  def command_start 
+    command_shuffle()
+    display_cardListInfomessage()
+  end
+
+  def command_drawCard 
+    action_drawCard()
+    display_cardListInfomessage()
+  end
+
+
+
   def test_function  
     # display_turnOnPlayer()
     # display_cardListInfomessage()
-    # command_endTurn()
-    command_shuffle()
+    command_endTurn()
+    # command_shuffle()
     display_cardListInfomessage()
   end
 
@@ -35,7 +47,7 @@ class ChatChannel < ApplicationCable::Channel
     # display_cardListInfomessage()
     # command_jump()
     command_totals()
-    display_userListInfomessage()
+    
   end
 
 
@@ -44,30 +56,16 @@ class ChatChannel < ApplicationCable::Channel
 
     #default value setting
     # sourcePlayer_id = Player.find_by(game_id: Game.last.id, user_id: User.find_by(name: current_user).id).id
-    targetCard_id = 4
+    targetCard_id = 39
     action_message = "use_card" #action command
 
 
     if action_message == "draw_card"
-      targetCard_id = Pockercard.on_deck_ids.sample(1)[0]
-
-      sourcePlayer_id = Game.last.players.deck.id
-      destPlayer_id = Game.last.players.find_by(user: current_user,role: nil).id
-      pockerCard_id = targetCard_id
-
-
-
+      action_drawCard()
     elsif action_message == "use_card"
-      # if Game.last.players.find_by(user: current_user,role: nil).id == Pockercard.find_by(id:targetCard_id).player_id #only owner can play card 
-      if check_cardOwn(targetCard_id)#only owner can play card  
-        sourcePlayer_id = Game.last.players.find_by(user: current_user,role: nil).id
-        destPlayer_id = Game.last.players.dummy.id
-        # destPlayer_id = 2 #dummy
-        pockerCard_id = targetCard_id
-      end
+      action_useCard(targetCard_id)
     end
-    command_moveCard(dest_id: destPlayer_id, source_id: sourcePlayer_id, card_id: pockerCard_id)
-
+    
   end
 
   def command_shuffle()
@@ -125,7 +123,7 @@ class ChatChannel < ApplicationCable::Channel
   def display_userListInfomessage()
 
     # players = Player.where(game_id:Game.last.id)
-    players = Game.last.players
+    players = Game.last.players.order(:id)
     count_number = Player.where(game_id: Game.last.id, role: nil).count #count player except deck and dummy
     # count_number = Player.where(game_id: Game.last.id).count #count player whith deck and dummy
     ActionCable.server.broadcast('messages', players: players.each_with_index.map{|player, index| { index: index+1, name: player.user.name, status: player.status }}, count_number: count_number, system_info: "players_lists")
@@ -135,7 +133,7 @@ class ChatChannel < ApplicationCable::Channel
 
   def display_cardListInfomessage()
     ActionCable.server.broadcast('messages', system_info: "clear_list")
-    players = Player.where(game_id:Game.last.id)
+    players = Player.where(game_id:Game.last.id).order(:id)
     players.each_with_index do |player, index|
       if index >=2         
         player_name = User.find(player.id-2).name
@@ -157,9 +155,9 @@ class ChatChannel < ApplicationCable::Channel
     ActionCable.server.broadcast('messages', player_id: turnPlayer.id-2 ,system_info: "turn_on") 
   end
 
-#============ check authroity functions ================
+#============ check condition functions ================
   
-  def check_cardOwn(card_id)
+  def check_cardOwn(card_id) #authroity
     
     value_return = false
 
@@ -174,6 +172,45 @@ class ChatChannel < ApplicationCable::Channel
 
 
 #=============== partial action functions =================
+
+
+  def action_useCard(pockerCard_id)
+    if check_cardOwn(pockerCard_id)#only owner can play card  
+      sourcePlayer_id = Game.last.players.by_user(current_user).id
+      destPlayer_id = Game.last.players.dummy.id # destPlayer_id = 2 (dummy)          
+    
+      command_moveCard(dest_id: destPlayer_id, source_id: sourcePlayer_id, card_id: pockerCard_id)
+  
+      #check effect of cards
+      card_effect = Pockercard.find(pockerCard_id).effect
+      if card_effect == "none"
+        action_endTurn(1) #move to next player=[
+      elsif card_effect == "back"     
+        Game.last.toggle_order!
+        action_endTurn(1) #skip next player
+      elsif card_effect == "jump"  
+        action_endTurn(2) #move to next next player
+      elsif card_effect == "attack"  
+        action_endTurn(2) #move to next next player
+      elsif card_effect == "onemore" 
+      else
+        action_endTurn(1) #skip next player
+      end
+    end
+
+    display_userListInfomessage()
+
+  end
+
+  def action_drawCard()
+    targetCard_id = Pockercard.on_deck_ids.sample(1)[0]
+    sourcePlayer_id = Game.last.players.deck.id
+    # destPlayer_id = Game.last.players.find_by(user: current_user,role: nil).id
+    destPlayer_id = Game.last.players.by_user(current_user).id
+
+    pockerCard_id = targetCard_id    
+    command_moveCard(dest_id: destPlayer_id, source_id: sourcePlayer_id, card_id: pockerCard_id)
+  end
 
   def action_moveCard(data)
     
@@ -208,49 +245,6 @@ class ChatChannel < ApplicationCable::Channel
     next_turn_player.update(status: "turn_on")
   end
 
-  #my coding
-  # def action_endTurn()
-
-  #   turn_step = 1 #default step
-  #   game_id = Game.last.id
-
-  #   turnPlayer = Player.where(game_id: game_id, status:"turn_on").last
-  #   alivePlayers = Player.where(game_id: game_id, status:["alive","turn_on"]).order(:id) #alive player's id
-
-  #   turnPlayer_index =0  #init
-  #   nextTurn_index =0  #init
-
-
-
-  #   alivePlayers.each_with_index do |alivePlayer, index|  #find out index in alive player array (not id)
-  #     if alivePlayer.user_id == turnPlayer.user_id
-  #       turnPlayer_index = index
-  #     end
-  #   end
-
-  #   game.players.on_game
-
-
-  #   max_index = alivePlayers.count
-
-  #   if Game.last.play_order == "clock_wise"   #move index for 1 step
-  #     nextTurn_index = turnPlayer_index + turn_step
-  #   else
-  #     nextTurn_index = turnPlayer_index - turn_step
-  #   end
-
-  #   if nextTurn_index < 0           #check underflow
-  #     nextTurn_index += max_index
-  #   end
-
-  #   if nextTurn_index >= max_index  #check overflow
-  #     nextTurn_index -= max_index
-  #   end
-
-  #   Player.find(alivePlayers[turnPlayer_index].id).update(status: "alive") #change active player to deactive
-  #   Player.find(alivePlayers[nextTurn_index].id).update(status: "turn_on") #change active player to deactive
-    
-  # end
-
+ 
 
 end

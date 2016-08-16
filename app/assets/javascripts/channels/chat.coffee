@@ -30,6 +30,7 @@ App.chat = App.cable.subscriptions.create "ChatChannel",
       else if data.system_info == "pockers_lists"
         for pocker in data.pockers
           appendSystemPockerListItem(pocker)
+
       else if data.system_info == "clear_list"
         $('#card-info-items').html('') #보내기전에 내용 전부다 지우기 
 
@@ -42,6 +43,10 @@ App.chat = App.cable.subscriptions.create "ChatChannel",
       else if data.system_info == "turn_on"
         $('#chatting-info-items').html('') #보내기전에 내용 전부다 지우기  
         appendSystemTurnListItem(data.player_id)
+
+      else if data.system_info == "last_card"
+        $('#chatting-info-items').html('') #보내기전에 내용 전부다 지우기  
+        appendSystemTurnListItem(data.card_id)
 
 
 
@@ -59,6 +64,19 @@ App.chat = App.cable.subscriptions.create "ChatChannel",
 
   move_card: ->
     @perform 'move_card'
+
+  draw_card: ->
+    @perform 'command_drawCard'
+
+  start_game: ->
+    @perform 'command_start'
+
+  shuffle_cards: ->
+    @perform 'command_shuffle_dummy'
+
+
+  use_card:(card_num) ->
+    @perform 'command_useCard', card_number: card_num
 
 
 #sytem info mation temporal functions 
@@ -110,6 +128,10 @@ App.chat = App.cable.subscriptions.create "ChatChannel",
     turnOnString = '<div>' + 'current turn player id =' + current_turn_player + '</div>'
     $('#user-info-items').append(turnOnString)
 
+  appendSystemTurnListItem = (current_last_card) ->
+    turnOnString = '<div>' + 'current last card id =' + current_last_card + '</div>'
+    $('#user-info-items').append(turnOnString)
+
 $(document).on 'keypress', '#chat-speak', (event) ->
   if event.keyCode is 13
     App.chat.speak(event.target.value)
@@ -122,3 +144,37 @@ $(document).on 'click', '#test_function', ->
 $(document).on 'click', '#test_function2', ->
   App.chat.test_function2()
 
+$(document).on 'click', '#draw_card', ->
+  App.chat.draw_card()
+
+$(document).on 'click', '#start_game', ->
+  App.chat.start_game()
+
+$(document).on 'click', '#shuffle_cards', ->
+  App.chat.shuffle_cards()
+
+
+
+$(document).on 'click', '#card1', ->
+  App.chat.use_card(0)
+
+$(document).on 'click', '#card2', ->
+  App.chat.use_card(1)
+
+$(document).on 'click', '#card3', ->
+  App.chat.use_card(2)
+
+$(document).on 'click', '#card4', ->
+  App.chat.use_card(3)
+
+$(document).on 'click', '#card5', ->
+  App.chat.use_card(4)
+
+$(document).on 'click', '#card6', ->
+  App.chat.use_card(5)
+
+$(document).on 'click', '#card7', ->
+  App.chat.use_card(6)
+
+$(document).on 'click', '#card8', ->
+  App.chat.use_card(7)

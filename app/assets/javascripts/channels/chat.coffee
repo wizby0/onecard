@@ -40,6 +40,9 @@ App.chat = App.cable.subscriptions.create "ChatChannel",
       else if data.system_info == "lists_end"
         appendSystemEndListItem()
 
+      else if data.system_info == "win_or_lose"
+        appendGameWinLoseAnounce(data)
+
       else if data.system_info == "turn_on"
         $('#chatting-info-items').html('') #보내기전에 내용 전부다 지우기  
         appendSystemTurnListItem(data.player_id)
@@ -78,6 +81,8 @@ App.chat = App.cable.subscriptions.create "ChatChannel",
   use_card:(card_num) ->
     @perform 'command_useCard', card_number: card_num
 
+  change_shape:(shape) ->
+    @perform 'command_changeCardShape', card_shape: shape
 
 #sytem info mation temporal functions 
 
@@ -92,6 +97,12 @@ App.chat = App.cable.subscriptions.create "ChatChannel",
 
   appendSystemAnounce = (message) ->
     $('#messages').append(message + '<br>')
+
+  appendGameWinLoseAnounce = (data) ->
+    itemHtmlString = 
+      '<div>' + 'player '+ data.player_id + ' [' + data.status + ']' +
+      '</div>'
+    $('#user-info-items').append(itemHtmlString)
 
   appendSystemUserListItem = (userListItem) ->
     itemHtmlString = 
@@ -178,3 +189,14 @@ $(document).on 'click', '#card7', ->
 
 $(document).on 'click', '#card8', ->
   App.chat.use_card(7)
+
+
+$(document).on 'click', '#change_shape1', ->
+  App.chat.change_shape("spade")
+$(document).on 'click', '#change_shape2', ->
+  App.chat.change_shape("diamond")
+$(document).on 'click', '#change_shape3', ->
+  App.chat.change_shape("clover")
+$(document).on 'click', '#change_shape4', ->
+  App.chat.change_shape("heart")
+  

@@ -18,7 +18,7 @@ pockercard_list = [["spade", "A","attack"],["spade", "2","attack"],["spade", "3"
 ["diamond", "J","jump"],["diamond", "Q","back"],["diamond", "K","onemore"],["heart", "A","attack"],
 ["heart", "2","attack"],["heart", "3","none"],["heart", "4","none"],["heart", "5","none"],["heart", "6","none"],
 ["heart", "7","change"],["heart", "8","none"],["heart", "9","none"],["heart", "10","none"],["heart", "J","jump"],
-["heart", "Q","back"],["heart", "K","onemore"]]
+["heart", "Q","back"],["heart", "K","onemore"],["black", "JOCKER","attack"],["color", "JOCKER","attack"]]
 
 pockercard_list.each_with_index do |pockercard_list,index|
   pockercard = Pockercard.new
